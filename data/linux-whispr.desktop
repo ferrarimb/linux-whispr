@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=LinuxWhispr
+GenericName=Voice Dictation
+Comment=Privacy-first voice dictation for Linux
+Exec=linux-whispr
+Icon=linux-whispr
+Terminal=false
+Categories=Utility;Accessibility;Audio;
+Keywords=voice;dictation;speech;whisper;transcription;
+StartupNotify=false
+X-GNOME-Autostart-enabled=false

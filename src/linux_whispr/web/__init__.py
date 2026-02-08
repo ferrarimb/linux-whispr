@@ -1,0 +1,1 @@
+"""LinuxWhispr Web Dashboard."""

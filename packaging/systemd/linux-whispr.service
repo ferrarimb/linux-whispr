@@ -1,0 +1,16 @@
+[Unit]
+Description=LinuxWhispr — Voice Dictation for Linux
+Documentation=https://github.com/your-username/linux-whispr
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/linux-whispr
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY=:0
+Environment=XDG_RUNTIME_DIR=/run/user/%U
+
+[Install]
+WantedBy=graphical-session.target

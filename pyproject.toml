@@ -1,0 +1,99 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "linux-whispr"
+version = "0.1.0"
+description = "Privacy-first, open-source voice dictation system for Linux"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "João Ferrai" },
+]
+keywords = ["voice", "dictation", "whisper", "linux", "speech-to-text"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: X11 Applications :: GTK",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dependencies = [
+    # Audio
+    "sounddevice>=0.4.6",
+    "numpy>=1.24",
+
+    # STT - Local
+    "faster-whisper>=1.0.0",
+
+    # VAD
+    "onnxruntime>=1.16",
+
+    # Config & Data
+    "tomli>=2.0; python_version < '3.11'",
+    "tomli-w>=1.0",
+
+    # Hotkey fallback
+    "pynput>=1.7",
+
+    # Utilities
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+gtk = [
+    "PyGObject>=3.46",
+    "pystray>=0.19",
+]
+cloud = [
+    "openai>=1.0",
+    "anthropic>=0.20",
+    "groq>=0.4",
+    "google-genai>=0.4",
+]
+local-llm = [
+    "llama-cpp-python>=0.2.0",
+]
+web = [
+    "fastapi>=0.109",
+    "uvicorn[standard]>=0.27",
+]
+all = [
+    "linux-whispr[gtk,cloud,local-llm,web]",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "mypy>=1.0",
+    "ruff>=0.1",
+]
+
+[project.scripts]
+linux-whispr = "linux_whispr.__main__:main"
+linux-whispr-web = "linux_whispr.web.server:run_server"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/linux_whispr"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"data/linux-whispr.desktop" = "share/applications/linux-whispr.desktop"
+"data/icons/linux-whispr.svg" = "share/icons/hicolor/scalable/apps/linux-whispr.svg"
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
