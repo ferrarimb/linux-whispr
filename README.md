@@ -18,43 +18,69 @@
 
 ### System Dependencies
 
+Install the system dependencies for your distribution.
+
+**Ubuntu/Debian (including Debian 13):**
+
 ```bash
-# Ubuntu/Debian
-sudo apt install python3-dev portaudio19-dev libgtk-4-dev libadwaita-1-dev \
+sudo apt install python3-venv python3-dev portaudio19-dev \
+    libgtk-4-dev libadwaita-1-dev \
     gobject-introspection libgirepository1.0-dev \
     wl-clipboard xdotool xclip
+```
 
-# Fedora
-sudo dnf install python3-devel portaudio-devel gtk4-devel libadwaita-devel \
-    gobject-introspection-devel \
+**Fedora:**
+
+```bash
+sudo dnf install python3-devel portaudio-devel gtk4-devel \
+    libadwaita-devel gobject-introspection-devel \
     wl-clipboard xdotool xclip
+```
 
-# Arch Linux
+**Arch Linux:**
+
+```bash
 sudo pacman -S python portaudio gtk4 libadwaita \
-    gobject-introspection \
-    wl-clipboard xdotool xclip
+    gobject-introspection wl-clipboard xdotool xclip
 ```
 
 ### Install
 
+Install LinuxWhispr from the source repository in a virtual environment:
+
 ```bash
-pip install linux-whispr
+# Clone the repository
+git clone https://github.com/ferrarimb/linux-whispr.git
+cd linux-whispr
+
+# Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install LinuxWhispr
+python -m pip install --upgrade pip
+python -m pip install .
 ```
 
 ### Run
 
+Activate the virtual environment if it is not already active, then start LinuxWhispr:
+
 ```bash
+source .venv/bin/activate
 linux-whispr
 ```
 
 On first run, a default config will be created at `~/.config/linux-whispr/config.toml`. The Whisper `base` model will be downloaded on first dictation (~150MB).
 
-### Usage
+Avoid using `sudo pip install` or `--break-system-packages` to install the application.
 
-1. Press **F12** (default hotkey) to start recording
-2. Speak your text
-3. Press **F12** again to stop (or wait for auto-stop after 2s of silence)
-4. Text appears at your cursor position
+## Usage
+
+1. Press **F12** (default hotkey) to start recording.
+2. Speak your text.
+3. Press **F12** again to stop (or wait for auto-stop after 2s of silence).
+4. Text appears at your cursor position.
 
 ## Configuration
 
@@ -87,12 +113,16 @@ preserve_clipboard = true
 ## Development
 
 ```bash
-# Clone
-git clone https://github.com/your-username/linux-whispr.git
+# Clone the repository
+git clone https://github.com/ferrarimb/linux-whispr.git
 cd linux-whispr
 
+# Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
 # Install in development mode
-pip install -e ".[dev]"
+python -m pip install -e ".[dev]"
 
 # Run tests
 pytest
@@ -106,7 +136,7 @@ ruff check src/
 
 ## Architecture
 
-```
+```text
 Hotkey → Audio Capture → VAD (auto-stop) → STT (faster-whisper) → AI Refinement (optional) → Text Injection
 ```
 
